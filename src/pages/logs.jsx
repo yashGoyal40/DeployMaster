@@ -9,13 +9,15 @@ import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 
+
 export default function LogsPage() {
   const logs = useSelector((state) => state.logs.logs);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredLogs, setFilteredLogs] = useState(logs);
   const [appFilter, setAppFilter] = useState("");
-  console.log(logs)
+
+  
 
   useEffect(() => {
     const filtered = logs.filter(

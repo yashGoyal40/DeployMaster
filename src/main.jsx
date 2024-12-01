@@ -14,6 +14,13 @@ import Settings from "./pages/settings";
 import  DashboardLayout  from "./pages/dashboardLayout";
 import { Provider } from "react-redux";
 import myStore from "./store";
+
+import { Amplify } from "aws-amplify";
+
+import outputs from "/amplify_outputs.json";
+
+Amplify.configure(outputs);
+
 const routes = createBrowserRouter([
   {
     path: "/",
