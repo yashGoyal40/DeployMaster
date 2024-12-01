@@ -10,6 +10,23 @@
       "StackName": "amplify-hosting-dev-81d22",
       "StackId": "arn:aws:cloudformation:us-east-1:121222884351:stack/amplify-hosting-dev-81d22/3e808980-afb4-11ef-9c7f-121fa3f605b9",
       "AmplifyAppId": "d3lto8x5ryb09g"
+    },
+    "categories": {
+      "auth": {
+        "deploymaster": {}
+      },
+      "function": {
+        "deploymasterCreateAuthChallenge": {},
+        "deploymasterCustomMessage": {
+          "REDIRECTURL": "http://localhost:5173/dashboard",
+          "EMAILSUBJECT": "Confirm your account",
+          "EMAILMESSAGE": "use redirection link to authenticate"
+        },
+        "deploymasterDefineAuthChallenge": {},
+        "deploymasterVerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6Le0A48qAAAAAJl51Inx6_rnhYziuyZEq9sjpw-a"
+        }
+      }
     }
   }
 }
