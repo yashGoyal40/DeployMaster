@@ -1,4 +1,4 @@
-import { CognitoUser } from "./index.service.js";
+import { CognitoUser ,userPool} from "./index.service.js";
 
 export const confirmSignup = (email, code) => {
   const cognitoUser = new CognitoUser({ Username: email, Pool: userPool });
