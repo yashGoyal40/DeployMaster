@@ -18,6 +18,7 @@ import Spinner from "@/components/Spinner";
 import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { googleLoginAction } from "@/actions/googleAction";
+import { initiateGoogleLogin } from "@/services/google.service";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -136,7 +137,7 @@ export default function LoginPage() {
               onClick={handleGoogleLogin}
             >
               <img
-                src="../../public/google.webp" 
+                src="/google.svg" 
                 alt="Google Icon"
                 className="w-5 h-5 mr-2"
               />
