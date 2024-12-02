@@ -40,6 +40,17 @@ export default function LoginPage() {
     }
   }, [LoggedIn, navigate]);
 
+  useEffect(() => {
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+
+    if (code) {
+      dispatch(googleLoginAction(code)); // Dispatch google login action to get tokens and login the user
+      navigate("/dashboard"); // Navigate to dashboard after successful login
+    }
+  }, [dispatch, navigate]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -54,18 +65,8 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const userData = await initiateGoogleLogin();
-      dispatch(googleLoginAction({
-        username: userData.name,
-        email: userData.email,
-        googleId: userData.id
-      }));
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Google login failed", error);
-    }
+  const handleGoogleLogin = () => {
+    initiateGoogleLogin(); // This will redirect to Google OAuth
   };
 
   return (
