@@ -12,10 +12,11 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import {  loginAction } from "@/actions/loginAction";
-import {signupAction} from "@/actions/signupAction"
+import { loginAction } from "@/actions/loginAction";
+import { signupAction } from "@/actions/signupAction";
 import { verifyEmailAction } from "@/actions/verifyEmailAction";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "@/components/ui/spinner"; // Assuming you have a Spinner component
 
 export default function SignupPage() {
   const [step, setStep] = useState(1); 
@@ -26,6 +27,7 @@ export default function SignupPage() {
   const [agreed, setAgreed] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
+  const [loading, setLoading] = useState(false); // State for loading
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -52,17 +54,21 @@ export default function SignupPage() {
       return;
     }
 
+    setLoading(true); // Set loading to true
     try {
       await dispatch(signupAction(name, email, password));
       setStep(2); // Proceed to the email verification step
     } catch (error) {
       console.error("Signup failed", error);
       alert("Signup failed. Please try again.");
+    } finally {
+      setLoading(false); // Set loading to false after completion
     }
   };
 
   const handleEmailVerification = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true
     try {
       await dispatch(verifyEmailAction(email, verificationCode)); 
       await dispatch(loginAction(email, password));
@@ -70,6 +76,8 @@ export default function SignupPage() {
     } catch (error) {
       console.error("Verification failed", error);
       alert("Verification failed. Please check the code and try again.");
+    } finally {
+      setLoading(false); // Set loading to false after completion
     }
   };
 
@@ -153,8 +161,8 @@ export default function SignupPage() {
                     </label>
                   </div>
                 </div>
-                <Button className="w-full mt-4" type="submit" disabled={!agreed}>
-                  Sign Up
+                <Button className="w-full mt-4" type="submit" disabled={!agreed || loading}>
+                  {loading ? <Spinner /> : "Sign Up"} {/* Show spinner when loading */}
                 </Button>
               </form>
             </CardContent>
@@ -192,8 +200,8 @@ export default function SignupPage() {
                       required
                     />
                   </div>
-                  <Button className="w-full mt-4" type="submit">
-                    Verify Email
+                  <Button className="w-full mt-4" type="submit" disabled={loading}>
+                    {loading ? <Spinner /> : "Verify Email"} {/* Show spinner when loading */}
                   </Button>
                 </div>
               </form>

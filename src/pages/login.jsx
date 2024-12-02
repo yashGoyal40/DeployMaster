@@ -14,27 +14,33 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "@/actions/loginAction";
+import Spinner from "@/components/Spinner";  
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);  // Track loading state
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await dispatch(loginAction(email, password)); 
-      navigate("/dashboard"); // Redirect on success
+      navigate("/dashboard"); 
     } catch (error) {
       console.error("Login failed", error);
       alert("Invalid credentials. Please try again.");
+    } finally {
+      setLoading(false);  
     }
   };
 
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
+      {loading && <Spinner />} 
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Welcome back!</CardTitle>

@@ -6,6 +6,7 @@ import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "@/components/Spinner";
 
 export default function DashboardLayout() {
   const dispatch = useDispatch();
@@ -20,6 +21,13 @@ export default function DashboardLayout() {
     }
   }, [dispatch, LoggedIn, navigate]);
 
+  if(!LoggedIn){
+    return(
+      <>
+      <Spinner />
+      </>
+    )
+  }
 
 
   return (
