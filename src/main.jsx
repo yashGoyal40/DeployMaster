@@ -15,7 +15,7 @@ import DashboardLayout from "./pages/dashboardLayout";
 import { Provider } from "react-redux";
 import myStore from "./store";
 import ForgotPasswordPage from "./pages/forgotPass";
-
+import { GoogleOAuthProvider } from "@react-oauth/google";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -42,9 +42,11 @@ const routes = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
+      <GoogleOAuthProvider>
       <Provider store={myStore}>
         <RouterProvider router={routes} />
       </Provider>
+      </GoogleOAuthProvider>
     </ThemeProvider>
   </StrictMode>
 );
