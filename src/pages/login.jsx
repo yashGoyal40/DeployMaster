@@ -25,7 +25,7 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(loginAction(email, password)); // Dispatch login action
+      await dispatch(loginAction(email, password)); 
       navigate("/dashboard"); // Redirect on success
     } catch (error) {
       console.error("Login failed", error);

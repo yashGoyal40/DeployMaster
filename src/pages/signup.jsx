@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { loginAction } from "@/actions/loginAction";
+import {  loginAction } from "@/actions/loginAction";
+import {signupAction} from "@/actions/signupAction"
+import { verifyEmailAction } from "@/actions/verifyEmailAction";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function SignupPage() {
-  const [step, setStep] = useState(1); // Step 1: Signup Form, Step 2: Email Verification
+  const [step, setStep] = useState(1); 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

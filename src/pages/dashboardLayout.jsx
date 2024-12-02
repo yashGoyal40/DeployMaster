@@ -5,20 +5,20 @@ import { useDispatch } from "react-redux";
 import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function DashboardLayout() {
   const dispatch = useDispatch();
+  const LoggedIn = useSelector(isLoggedIn)
 
   useEffect(() => {
-    // Check for existing session on initial load
     dispatch(checkLoggedInAction());
   }, [dispatch]);
 
   return (
     <SidebarProvider>
       <div className="flex h-screen overflow-hidden">
-        {/* Render Sidebar only if the user is logged in */}
-        {isLoggedIn ? (
+        {LoggedIn ? (
           <>
             <SidebarComponent />
             <main className="flex-1 overflow-y-auto">

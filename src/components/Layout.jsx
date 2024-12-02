@@ -167,7 +167,7 @@ export default function Layout({ children }) {
             <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
               <p>© 2023 DeployMaster. All rights reserved.</p>
             </div>
-            <div className="flex flex-1 items-center justify-center md:justify-end gap-4">
+            <div className="flex flex-1 items-center justify-center md:justify-end mr-5 gap-4">
               <Link
                 href="#"
                 className="text-muted-foreground hover:text-foreground"
