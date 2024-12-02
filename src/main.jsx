@@ -15,8 +15,6 @@ import  DashboardLayout  from "./pages/dashboardLayout";
 import { Provider } from "react-redux";
 import myStore from "./store";
 
-import { Amplify } from "aws-amplify";
-
 
 const routes = createBrowserRouter([
   {
