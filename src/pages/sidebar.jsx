@@ -22,19 +22,25 @@ import {
 } from "lucide-react";
 import { useTheme } from "../components/ThemeContext";
 import { Link, useLocation } from "react-router-dom";
+import { logoutAction } from "@/actions/logoutAction";
+import { useDispatch } from "react-redux";
 
 export default function SidebarComponent() {
   const { setTheme, theme } = useTheme();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
-
+  const dispatch  = useDispatch()
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+    const  logoutButton = async () => {
+    await dispatch(logoutAction());
+  }
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
@@ -123,7 +129,7 @@ export default function SidebarComponent() {
       )}
       {!isCollapsed && <span className={`${isMobile ? "hidden" : ""}`}>Toggle Theme</span>}
     </Button>
-    <Button
+    <Button onClick = {logoutButton}
       variant="ghost"
       className={`${
         isMobile ? "w-auto justify-center" : "w-full justify-start"
