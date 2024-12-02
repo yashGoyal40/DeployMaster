@@ -64,8 +64,8 @@ export default function SignupPage() {
   const handleEmailVerification = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(verifyEmailAction(email, verificationCode)); // Dispatch email verification action
-      await dispatch(loginAction(email, password)); // Auto-login
+      await dispatch(verifyEmailAction(email, verificationCode)); 
+      await dispatch(loginAction(email, password));
       navigate("/dashboard");
     } catch (error) {
       console.error("Verification failed", error);

@@ -5,6 +5,7 @@ export const signupUser = (email,name, password) => {
     userPool.signUp(email,name, password, [], null, (err, result) => {
       if (err) {
         reject(err.message || "Signup failed");
+        console.log(err.message);
       } else {
         resolve(result);
       }
