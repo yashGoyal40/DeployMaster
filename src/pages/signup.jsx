@@ -16,10 +16,10 @@ import { loginAction } from "@/actions/loginAction";
 import { signupAction } from "@/actions/signupAction";
 import { verifyEmailAction } from "@/actions/verifyEmailAction";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "@/components/Spinner"; // Assuming you have a Spinner component
+import { Spinner } from "@/components/Spinner";
 
 export default function SignupPage() {
-  const [step, setStep] = useState(1); 
+  const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,9 +35,12 @@ export default function SignupPage() {
     const errors = {};
     if (password.length < 8) errors.length = "Must be at least 8 characters.";
     if (!/[0-9]/.test(password)) errors.number = "Must include a number.";
-    if (!/[a-z]/.test(password)) errors.lowercase = "Must include a lowercase letter.";
-    if (!/[A-Z]/.test(password)) errors.uppercase = "Must include an uppercase letter.";
-    if (!/[!@#$%^&*]/.test(password)) errors.symbol = "Must include a special character.";
+    if (!/[a-z]/.test(password))
+      errors.lowercase = "Must include a lowercase letter.";
+    if (!/[A-Z]/.test(password))
+      errors.uppercase = "Must include an uppercase letter.";
+    if (!/[!@#$%^&*]/.test(password))
+      errors.symbol = "Must include a special character.";
     return errors;
   };
 
@@ -70,7 +73,7 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true); // Set loading to true
     try {
-      await dispatch(verifyEmailAction(email, verificationCode)); 
+      await dispatch(verifyEmailAction(email, verificationCode));
       await dispatch(loginAction(email, password));
       navigate("/dashboard");
     } catch (error) {
@@ -88,7 +91,9 @@ export default function SignupPage() {
           <>
             {/* Signup Form */}
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold">Create Your Account</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                Create Your Account
+              </CardTitle>
               <CardDescription>
                 Enter your information to get started.
               </CardDescription>
@@ -161,8 +166,13 @@ export default function SignupPage() {
                     </label>
                   </div>
                 </div>
-                <Button className="w-full mt-4" type="submit" disabled={!agreed || loading}>
-                  {loading ? <Spinner /> : "Sign Up"} {/* Show spinner when loading */}
+                <Button
+                  className="w-full mt-4"
+                  type="submit"
+                  disabled={!agreed || loading}
+                >
+                  {loading ? <Spinner /> : "Sign Up"}{" "}
+                  {/* Show spinner when loading */}
                 </Button>
               </form>
             </CardContent>
@@ -182,9 +192,12 @@ export default function SignupPage() {
           <>
             {/* Email Verification */}
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold">Verify Your Email</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                Verify Your Email
+              </CardTitle>
               <CardDescription>
-                We have sent a verification code to {email}. Enter it below to verify your email address.
+                We have sent a verification code to {email}. Enter it below to
+                verify your email address.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -200,8 +213,13 @@ export default function SignupPage() {
                       required
                     />
                   </div>
-                  <Button className="w-full mt-4" type="submit" disabled={loading}>
-                    {loading ? <Spinner /> : "Verify Email"} {/* Show spinner when loading */}
+                  <Button
+                    className="w-full mt-4"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? <Spinner /> : "Verify Email"}{" "}
+                    {/* Show spinner when loading */}
                   </Button>
                 </div>
               </form>
