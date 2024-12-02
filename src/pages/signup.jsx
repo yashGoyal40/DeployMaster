@@ -16,8 +16,7 @@ import { loginAction } from "@/actions/loginAction";
 import { signupAction } from "@/actions/signupAction";
 import { verifyEmailAction } from "@/actions/verifyEmailAction";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "@/components/Spinner";
-
+import Spinner from "@/components/Spinner";
 export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
