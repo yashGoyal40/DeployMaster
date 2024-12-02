@@ -14,7 +14,6 @@ import Settings from "./pages/settings";
 import DashboardLayout from "./pages/dashboardLayout";
 import { Provider } from "react-redux";
 import myStore from "./store";
-import ResetPasswordPage from "./pages/resetPass";
 import ForgotPasswordPage from "./pages/forgotPass";
 
 const routes = createBrowserRouter([
