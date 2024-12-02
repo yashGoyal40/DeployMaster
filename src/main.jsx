@@ -16,6 +16,21 @@ import { Provider } from "react-redux";
 import myStore from "./store";
 
 
+
+import { AuthProvider } from "react-oidc-context";
+
+const cognitoAuthConfig = {
+  authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_0fL31FN0N",
+  client_id: "33pjjv15jkprt09hm4u7nb7o4l",
+  redirect_uri: "https://deploy-master-frontend.vercel.app/dashboard/",
+  response_type: "code",
+  scope: "email openid phone",
+};
+
+
+
+
+
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -39,9 +54,11 @@ const routes = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
+    <AuthProvider  {...cognitoAuthConfig}>
       <Provider store = {myStore}>
       <RouterProvider router={routes} />
       </Provider>
+    </AuthProvider>
     </ThemeProvider>
   </StrictMode>
 );

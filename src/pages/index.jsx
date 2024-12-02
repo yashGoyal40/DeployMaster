@@ -10,8 +10,8 @@ import { Link } from "react-router";
 import { useSelector } from "react-redux";
 import { isLoggedIn } from "@/store/AuthSlice";
 
-
 export default function LandingPage() {
+  
   const loggedIn = useSelector(isLoggedIn)
 
   return (

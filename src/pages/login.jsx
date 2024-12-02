@@ -11,10 +11,19 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { useAuth } from "react-oidc-context";
 
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const auth = useAuth();
+  const signOutRedirect = () => {
+    const clientId = "33pjjv15jkprt09hm4u7nb7o4l";
+    const logoutUri = "https://deploy-master-frontend.vercel.app";
+    const cognitoDomain = "https://us-east-10fl31fn0n.auth.us-east-1.amazoncognito.com";
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  };
 
   return (
     <>
