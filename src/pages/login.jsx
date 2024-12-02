@@ -155,7 +155,7 @@ export default function LoginPage() {
               Forgot Password?
             </a>
           </p>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
+          <p className="mt-2 ml-2 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
             <a
               href="/auth/signup"
