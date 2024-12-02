@@ -1,4 +1,4 @@
-import { confirmSignup } from "@/services/signup.service";
+import { confirmSignup } from "@/services/confirmSignUp.service";
 export const verifyEmailAction = (email, code) => async (dispatch) => {
   try {
     const result = await confirmSignup(email, code);

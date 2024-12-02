@@ -1,26 +1,24 @@
 import { userPool } from "./index.service.js";
 
-export const signupUser = (email,name, password) => {
+export const signupUser = (email, name, password) => {
+  const attributeList = [
+    {
+      Name: "email",
+      Value: email,
+    },
+    {
+      Name: "name",
+      Value: name,
+    },
+  ];
+
   return new Promise((resolve, reject) => {
-    userPool.signUp(email,name, password, [], null, (err, result) => {
+    userPool.signUp(email, password, attributeList, null, (err, result) => {
       if (err) {
+        console.error(err.message);
         reject(err.message || "Signup failed");
-        console.log(err.message);
       } else {
         resolve(result);
-      }
-    });
-  });
-};
-
-export const confirmSignup = (email, code) => {
-  const cognitoUser = userPool.getCurrentUser();
-  return new Promise((resolve, reject) => {
-    cognitoUser.confirmRegistration(code, true, (err) => {
-      if (err) {
-        reject(err.message || "Verification failed");
-      } else {
-        resolve("Signup confirmed");
       }
     });
   });
