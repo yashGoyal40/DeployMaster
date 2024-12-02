@@ -23,7 +23,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,8 +55,12 @@ export default function LoginPage() {
 
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
-      {loading && <Spinner />}
-      <Card className="w-full max-w-md">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
+          <Spinner />
+        </div>
+      )}
+      <Card className={`w-full max-w-md ${loading ? "opacity-50" : ""}`}>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Welcome back!</CardTitle>
           <CardDescription>
@@ -107,7 +111,7 @@ export default function LoginPage() {
                 </div>
               </div>
             </div>
-            <Button className="w-full mt-4" type="submit">
+            <Button className="w-full mt-4" type="submit" disabled={loading}>
               Login
             </Button>
           </form>
