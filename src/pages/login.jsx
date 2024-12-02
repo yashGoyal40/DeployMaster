@@ -15,9 +15,9 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "@/actions/loginAction";
 import Spinner from "@/components/Spinner";
-
 import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
+import { googleLoginAction } from "@/actions/googleAction";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,13 +31,13 @@ export default function LoginPage() {
 
   useEffect(() => {
     dispatch(checkLoggedInAction());
-  }, [LoggedIn, dispatch, navigate]);
+  }, [LoggedIn, dispatch]);
 
   useEffect(() => {
     if (LoggedIn) {
       navigate("/dashboard");
     }
-  });
+  }, [LoggedIn, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -50,6 +50,20 @@ export default function LoginPage() {
       alert("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const userData = await initiateGoogleLogin();
+      dispatch(googleLoginAction({
+        username: userData.name,
+        email: userData.email,
+        googleId: userData.id
+      }));
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Google login failed", error);
     }
   };
 
@@ -115,6 +129,20 @@ export default function LoginPage() {
               Login
             </Button>
           </form>
+          <div className="mt-4">
+            <Button
+              variant="outline"
+              className="w-full flex items-center justify-center"
+              onClick={handleGoogleLogin}
+            >
+              <img
+                src="../../public/google.webp" 
+                alt="Google Icon"
+                className="w-5 h-5 mr-2"
+              />
+              Login with Google
+            </Button>
+          </div>
         </CardContent>
         <CardFooter>
           <p className="mt-2 text-center text-sm text-muted-foreground">
@@ -125,7 +153,6 @@ export default function LoginPage() {
               Forgot Password?
             </a>
           </p>
-          <br></br>
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
             <a

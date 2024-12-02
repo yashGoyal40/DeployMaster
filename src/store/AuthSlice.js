@@ -3,12 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   status: false,
   username: null,
-  emailVerified: false, 
+  emailVerified: false,
   email: null,
+  googleId: null,  // Store Google ID for user login
+  isGoogleLogin: false,  // Flag to check if the login was through Google
 };
 
 const authSlice = createSlice({
-  name: "authSlice",
+  name: 'authSlice',
   initialState,
   reducers: {
     logout: (state) => {
@@ -16,26 +18,40 @@ const authSlice = createSlice({
       state.username = null;
       state.emailVerified = false;
       state.email = null;
+      state.googleId = null;
+      state.isGoogleLogin = false;
     },
     login: (state, action) => {
       state.status = true;
       state.username = action.payload.username;
       state.email = action.payload.email;
+      state.isGoogleLogin = false;  // Google login flag false for regular login
+    },
+    googleLogin: (state, action) => {
+      state.status = true;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state.googleId = action.payload.googleId;
+      state.isGoogleLogin = true;  // Set Google login flag true
     },
     setSignupSuccess: (state, action) => {
-      state.email = action.payload.email; 
+      state.email = action.payload.email;
     },
     setEmailVerified: (state, action) => {
       state.emailVerified = true;
-      state.email = action.payload.email; 
+      state.email = action.payload.email;
     },
   },
 });
 
-export const { login, logout, setSignupSuccess, setEmailVerified, } = authSlice.actions;
+export const { login, logout, googleLogin, setSignupSuccess, setEmailVerified } = authSlice.actions;
+
+// Selectors
 export const isLoggedIn = (state) => state.authSlice.status;
 export const sliceUsername = (state) => state.authSlice.username;
 export const sliceEmailVerified = (state) => state.authSlice.emailVerified;
 export const sliceEmail = (state) => state.authSlice.email;
+export const sliceGoogleId = (state) => state.authSlice.googleId;
+export const sliceIsGoogleLogin = (state) => state.authSlice.isGoogleLogin;
 
 export default authSlice.reducer;
