@@ -14,53 +14,48 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "@/actions/loginAction";
-import Spinner from "@/components/Spinner";  
+import Spinner from "@/components/Spinner";
 
 import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
 
 export default function LoginPage() {
-
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);  // Track loading state
+  const [loading, setLoading] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const LoggedIn = useSelector(isLoggedIn)
+  const LoggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
-    dispatch(checkLoggedInAction())
-  },[LoggedIn,dispatch,navigate])
+    dispatch(checkLoggedInAction());
+  }, [LoggedIn, dispatch, navigate]);
 
   useEffect(() => {
-    if(LoggedIn){
-      navigate("/dashboard")
+    if (LoggedIn) {
+      navigate("/dashboard");
     }
-  })
-
-
-
+  });
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await dispatch(loginAction(email, password)); 
-      navigate("/dashboard"); 
+      await dispatch(loginAction(email, password));
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
       alert("Invalid credentials. Please try again.");
     } finally {
-      setLoading(false);  
+      setLoading(false);
     }
   };
 
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
-      {loading && <Spinner />} 
+      {loading && <Spinner />}
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Welcome back!</CardTitle>
@@ -118,6 +113,14 @@ export default function LoginPage() {
           </form>
         </CardContent>
         <CardFooter>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            <a
+              href="/auth/passwordreset"
+              className="underline underline-offset-4 hover:text-primary"
+            >
+              Forgot Password?
+            </a>
+          </p>
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
             <a

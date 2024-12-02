@@ -11,10 +11,11 @@ import Dashboard from "./pages/dashboard";
 import Repositories from "./pages/repositories";
 import Logs from "./pages/logs";
 import Settings from "./pages/settings";
-import  DashboardLayout  from "./pages/dashboardLayout";
+import DashboardLayout from "./pages/dashboardLayout";
 import { Provider } from "react-redux";
 import myStore from "./store";
-
+import ResetPasswordPage from "./pages/resetPass";
+import ForgotPasswordPage from "./pages/forgotPass";
 
 const routes = createBrowserRouter([
   {
@@ -24,23 +25,26 @@ const routes = createBrowserRouter([
       { path: "/", element: <LandingPage /> },
       { path: "/auth/login", element: <LoginPage /> },
       { path: "/auth/signup", element: <SignupPage /> },
+      { path: "/auth/passwordreset", element: <ForgotPasswordPage /> },
     ],
   },
   {
-    path: "/dashboard", element: <DashboardLayout /> , children :[
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
       { path: "/dashboard/", element: <Dashboard /> },
-      { path: "/dashboard/repositories", element: < Repositories/> },
+      { path: "/dashboard/repositories", element: <Repositories /> },
       { path: "/dashboard/logs", element: <Logs /> },
       { path: "/dashboard/settings", element: <Settings /> },
-    ]
-  }
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
-      <Provider store = {myStore}>
-      <RouterProvider router={routes} />
+      <Provider store={myStore}>
+        <RouterProvider router={routes} />
       </Provider>
     </ThemeProvider>
   </StrictMode>

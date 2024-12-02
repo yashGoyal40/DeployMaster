@@ -4,7 +4,7 @@ const initialState = {
   status: false,
   username: null,
   emailVerified: false, 
-  email: null, 
+  email: null,
 };
 
 const authSlice = createSlice({
@@ -32,7 +32,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, setSignupSuccess, setEmailVerified } = authSlice.actions;
+export const { login, logout, setSignupSuccess, setEmailVerified, } = authSlice.actions;
 export const isLoggedIn = (state) => state.authSlice.status;
 export const sliceUsername = (state) => state.authSlice.username;
 export const sliceEmailVerified = (state) => state.authSlice.emailVerified;
