@@ -6,9 +6,7 @@ import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { useEffect } from "react";
 
-
 export default function DashboardLayout() {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,10 +15,10 @@ export default function DashboardLayout() {
   }, [dispatch]);
 
   return (
-      <SidebarProvider>
+    <SidebarProvider>
       <div className="flex h-screen overflow-hidden">
         {/* Render Sidebar only if the user is logged in */}
-        {loggedIn ? (
+        {isLoggedIn ? (
           <>
             <SidebarComponent />
             <main className="flex-1 overflow-y-auto">
@@ -34,6 +32,5 @@ export default function DashboardLayout() {
         )}
       </div>
     </SidebarProvider>
-    
   );
 }
