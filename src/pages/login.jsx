@@ -27,6 +27,10 @@ export default function LoginPage() {
 
   return (
     <>
+    <div>
+     <button onClick={() => auth.signinRedirect()}>Sign in</button>
+      <button onClick={() => signOutRedirect()}>Sign out</button>
+      </div>
       
       <div className="container flex items-center justify-center min-h-screen py-12">
         <Card className="w-full max-w-md">
