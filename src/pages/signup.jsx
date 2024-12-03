@@ -102,9 +102,9 @@ export default function SignupPage() {
   };
 
   const handleGoogleLoginSuccess = async (response) => {
-    const code = response.code; // This is the authorization code from Google
+    const code = response.code; 
     try {
-      await dispatch(initiateGoogleLogin(code)); // Dispatch Google login action with code
+      await dispatch(initiateGoogleLogin(code)); 
       navigate("/dashboard");
     } catch (error) {
       console.error("Google login failed", error);

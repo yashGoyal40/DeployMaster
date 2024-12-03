@@ -17,8 +17,7 @@ import { loginAction } from "@/actions/loginAction";
 import Spinner from "@/components/Spinner";
 import { checkLoggedInAction } from "@/actions/authAction";
 import { isLoggedIn } from "@/store/AuthSlice";
-import { googleLoginAction } from "@/actions/googleAction";
-import { initiateGoogleLogin } from "@/services/google.service";
+import { googleLoginAction,googleCallbackAction } from "@/actions/googleAction";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -45,8 +44,8 @@ export default function LoginPage() {
     const code = urlParams.get("code");
 
     if (code) {
-      dispatch(googleLoginAction(code)); // Dispatch google login action to get tokens and login the user
-      navigate("/dashboard"); // Navigate to dashboard after successful login
+      dispatch(googleCallbackAction(code)); 
+      navigate("/dashboard");
     }
   }, [dispatch, navigate]);
 
@@ -65,7 +64,7 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = () => {
-    initiateGoogleLogin(); // This will redirect to Google OAuth
+    dispatch(googleLoginAction())
   };
 
   return (
