@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "@/components/Spinner";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { checkLoggedInAction } from "@/actions/authAction";
+import { useSelector } from "react-redux";
 export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
@@ -31,6 +32,7 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false); // State for loading
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
 
   const LoggedIn = useSelector(isLoggedIn)
 
