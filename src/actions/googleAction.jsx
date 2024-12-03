@@ -12,7 +12,7 @@ export const googleLoginAction = () => async (dispatch) => {
 export const googleCallbackAction = (code) => async (dispatch) => {
   try {
     const { email, username, googleId } = await handleGoogleCallback(code);
-
+    console.log({email,username,googleId})
     dispatch(
       googleLogin({
         email,
