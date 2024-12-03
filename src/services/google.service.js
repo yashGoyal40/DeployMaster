@@ -1,5 +1,9 @@
 import { userPool ,CognitoUser,AuthenticationDetails} from "./index.service";
 
+
+import { loginUser } from "./login.service";
+import { signupUser } from "./signup.service";
+
 export const initiateGoogleLogin = async () => {
   try {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -18,7 +22,7 @@ export const initiateGoogleLogin = async () => {
 
 export const handleGoogleCallback = async (code) => {
   try {
-    // Exchange the Google authorization code for tokens
+    
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: {
@@ -40,41 +44,48 @@ export const handleGoogleCallback = async (code) => {
     }
 
     const { id_token } = tokenData;
+    const decodedToken = JSON.parse(atob(id_token.split(".")[1]));
+    const email = decodedToken.email;
+    const name = decodedToken.name;
 
+    if (!email || !name) {
+      throw new Error("Failed to extract user information from Google token");
+    }
 
+    try {
+      const loginResponse = await loginUser(email, import.meta.env.VITE_GOOGLE_PASS);
+      console.log("Login successful:", loginResponse);
 
-    const authDetails = new AuthenticationDetails({
-      Username: id_token,
-      Password: id_token, 
-    });
+      localStorage.setItem("idToken", loginResponse.idToken);
+      return {
+        message: "Login successful",
+        username: loginResponse.username,
+      };
+    } catch (loginError) {
+      
+      if (loginError.includes("User does not exist")) {
+        console.log("User not found, proceeding with signup...");
 
-    const cognitoUser = new CognitoUser({
-      Username: id_token,
-      Pool: userPool,
-    });
+        
+        const randomPassword = import.meta.env.VITE_GOOGLE_PASS; 
 
-    return new Promise((resolve, reject) => {
-      cognitoUser.authenticateUser(authDetails, {
-        onSuccess: (session) => {
-          const idToken = session.getIdToken().getJwtToken();
-          const accessToken = session.getAccessToken().getJwtToken();
+        const signupResponse = await signupUser(email, name, randomPassword);
+        console.log("Signup successful:", signupResponse);
 
-          localStorage.setItem("idToken", idToken);
-          localStorage.setItem("accessToken", accessToken);
+        const loginResponseAfterSignup = await loginUser(email, randomPassword);
 
-          resolve({
-            email: session.idToken.payload.email,
-            username: session.idToken.payload["cognito:username"],
-          });
-        },
-        onFailure: (err) => {
-          console.error("Cognito login failed:", err);
-          reject(err);
-        },
-      });
-    });
+        // Save tokens to localStorage
+        localStorage.setItem("idToken", loginResponseAfterSignup.idToken);
+        return {
+          message: "Signup and login successful",
+          username: loginResponseAfterSignup.username,
+        };
+      } else {
+        throw new Error(loginError);
+      }
+    }
   } catch (error) {
-    console.error("Google callback handling failed:", error);
+    console.error("Google callback action failed:", error);
     throw error;
   }
 };
