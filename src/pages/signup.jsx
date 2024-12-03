@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "@/components/Spinner";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { checkLoggedInAction } from "@/actions/authAction";
-import { useSelector } from "react-redux";
 export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
@@ -29,7 +28,7 @@ export default function SignupPage() {
   const [agreed, setAgreed] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
-  const [loading, setLoading] = useState(false); // State for loading
+  const [loading, setLoading] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
