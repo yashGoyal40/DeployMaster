@@ -1,4 +1,4 @@
-import { userPool } from "./index.service";
+import { userPool ,CognitoUser,AuthenticationDetails} from "./index.service";
 
 export const initiateGoogleLogin = async () => {
   try {
@@ -15,9 +15,10 @@ export const initiateGoogleLogin = async () => {
   }
 };
 
+
 export const handleGoogleCallback = async (code) => {
   try {
-   
+    // Exchange the Google authorization code for tokens
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: {
@@ -33,7 +34,6 @@ export const handleGoogleCallback = async (code) => {
     });
 
     const tokenData = await tokenResponse.json();
-    console.log(tokenData)
 
     if (!tokenResponse.ok) {
       throw new Error(tokenData.error_description || "Failed to exchange token");
@@ -41,25 +41,38 @@ export const handleGoogleCallback = async (code) => {
 
     const { id_token } = tokenData;
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/oauth/cognito/google`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ idToken: id_token }),
+
+
+    const authDetails = new AuthenticationDetails({
+      Username: id_token,
+      Password: id_token, 
     });
 
-    const cognitoData = await response.json();
+    const cognitoUser = new CognitoUser({
+      Username: id_token,
+      Pool: userPool,
+    });
 
-    if (!response.ok) {
-      throw new Error(cognitoData.error || "Failed to process Cognito login");
-    }
+    return new Promise((resolve, reject) => {
+      cognitoUser.authenticateUser(authDetails, {
+        onSuccess: (session) => {
+          const idToken = session.getIdToken().getJwtToken();
+          const accessToken = session.getAccessToken().getJwtToken();
 
-    const { email, username, googleId } = cognitoData;
+          localStorage.setItem("idToken", idToken);
+          localStorage.setItem("accessToken", accessToken);
 
-    localStorage.setItem("idToken", cognitoData.idToken);
-
-    return { email, username, googleId };
+          resolve({
+            email: session.idToken.payload.email,
+            username: session.idToken.payload["cognito:username"],
+          });
+        },
+        onFailure: (err) => {
+          console.error("Cognito login failed:", err);
+          reject(err);
+        },
+      });
+    });
   } catch (error) {
     console.error("Google callback handling failed:", error);
     throw error;
