@@ -266,7 +266,7 @@ export default function SignupPage() {
                 alt="Google Icon"
                 className="w-5 h-5 mr-2"
               />
-              Signup with Google
+              SignUp with Google
             </Button>
           </div>
         </CardFooter>
