@@ -78,7 +78,7 @@ export default function SignupPage() {
     setLoading(true);
     try {
       await dispatch(signupAction(name, email, password));
-      setStep(2); // Proceed to the email verification step
+      setStep(2);
     } catch (error) {
       console.error("Signup failed", error);
       alert("Signup failed. Please try again.");

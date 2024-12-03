@@ -33,6 +33,7 @@ export const handleGoogleCallback = async (code) => {
     });
 
     const tokenData = await tokenResponse.json();
+    console.log(tokenData)
 
     if (!tokenResponse.ok) {
       throw new Error(tokenData.error_description || "Failed to exchange token");
