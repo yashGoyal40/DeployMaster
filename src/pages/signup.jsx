@@ -107,16 +107,14 @@ export default function SignupPage() {
     const code = urlParams.get("code");
 
     if (code) {
-      dispatch(googleCallbackAction(code)); 
+      dispatch(googleCallbackAction(code));
       navigate("/dashboard");
     }
   }, [dispatch, navigate]);
 
   const handleGoogleLogin = () => {
-    dispatch(googleLoginAction())
+    dispatch(googleLoginAction());
   };
- 
-
 
   return (
     <div className="container flex items-center justify-center min-h-screen py-12">
@@ -268,7 +266,7 @@ export default function SignupPage() {
                 alt="Google Icon"
                 className="w-5 h-5 mr-2"
               />
-              Login with Google
+              Signup with Google
             </Button>
           </div>
         </CardFooter>
