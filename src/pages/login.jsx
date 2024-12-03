@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,13 +16,33 @@ import { useNavigate } from "react-router-dom";
 import { loginAction } from "@/actions/loginAction";
 import Spinner from "@/components/Spinner";  
 
+import { checkLoggedInAction } from "@/actions/authAction";
+import { isLoggedIn } from "@/store/AuthSlice";
+
 export default function LoginPage() {
+
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);  // Track loading state
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const LoggedIn = useSelector(isLoggedIn)
+
+  useEffect(() => {
+    dispatch(checkLoggedInAction())
+  },[LoggedIn,dispatch,navigate])
+
+  useEffect(() => {
+    if(LoggedIn){
+      navigate("/dashboard")
+    }
+  })
+
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();

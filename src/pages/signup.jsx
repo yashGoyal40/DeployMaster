@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,8 @@ import { signupAction } from "@/actions/signupAction";
 import { verifyEmailAction } from "@/actions/verifyEmailAction";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/components/Spinner";
+import { isLoggedIn } from "@/store/AuthSlice";
+import { checkLoggedInAction } from "@/actions/authAction";
 export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
@@ -29,6 +31,19 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false); // State for loading
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const LoggedIn = useSelector(isLoggedIn)
+
+  useEffect(() =>{
+    dispatch(checkLoggedInAction())
+  },[LoggedIn])
+
+  useEffect(() => {
+    if(LoggedIn){
+      navigate("/dashboard")
+    }
+  })
+
 
   const validatePassword = (password) => {
     const errors = {};
