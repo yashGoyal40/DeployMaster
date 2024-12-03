@@ -17,7 +17,7 @@ export const initiateGoogleLogin = async () => {
 
 export const handleGoogleCallback = async (code) => {
   try {
-    // Exchange the authorization code for Google tokens
+   
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: {
@@ -40,7 +40,6 @@ export const handleGoogleCallback = async (code) => {
 
     const { id_token } = tokenData;
 
-    // Send the ID token to your backend or directly use it with Cognito
     const response = await fetch(`${import.meta.env.VITE_API_URL}/oauth/cognito/google`, {
       method: "POST",
       headers: {
