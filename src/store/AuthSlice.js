@@ -5,8 +5,8 @@ const initialState = {
   username: null,
   emailVerified: false,
   email: null,
-  googleId: null,  // Store Google ID for user login
-  isGoogleLogin: false,  // Flag to check if the login was through Google
+  googleId: null,  
+  isGoogleLogin: false, 
 };
 
 const authSlice = createSlice({
@@ -25,14 +25,14 @@ const authSlice = createSlice({
       state.status = true;
       state.username = action.payload.username;
       state.email = action.payload.email;
-      state.isGoogleLogin = false;  // Google login flag false for regular login
+      state.isGoogleLogin = false; 
     },
     googleLogin: (state, action) => {
       state.status = true;
       state.username = action.payload.username;
       state.email = action.payload.email;
       state.googleId = action.payload.googleId;
-      state.isGoogleLogin = true;  // Set Google login flag true
+      state.isGoogleLogin = true; 
     },
     setSignupSuccess: (state, action) => {
       state.email = action.payload.email;
