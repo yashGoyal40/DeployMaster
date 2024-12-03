@@ -19,9 +19,9 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "@/components/Spinner";
 import { isLoggedIn } from "@/store/AuthSlice";
 import { checkLoggedInAction } from "@/actions/authAction";
-import { GoogleLogin } from "@react-oauth/google"; 
-import { googleLoginAction } from "@/actions/googleAction"; 
-
+import { GoogleLogin } from "@react-oauth/google";
+import { googleLoginAction } from "@/actions/googleAction";
+import { initiateGoogleLogin } from "@/services/google.service";
 
 export default function SignupPage() {
   const [step, setStep] = useState(1);
@@ -32,7 +32,7 @@ export default function SignupPage() {
   const [agreed, setAgreed] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -52,9 +52,12 @@ export default function SignupPage() {
     const errors = {};
     if (password.length < 8) errors.length = "Must be at least 8 characters.";
     if (!/[0-9]/.test(password)) errors.number = "Must include a number.";
-    if (!/[a-z]/.test(password)) errors.lowercase = "Must include a lowercase letter.";
-    if (!/[A-Z]/.test(password)) errors.uppercase = "Must include an uppercase letter.";
-    if (!/[!@#$%^&*]/.test(password)) errors.symbol = "Must include a special character.";
+    if (!/[a-z]/.test(password))
+      errors.lowercase = "Must include a lowercase letter.";
+    if (!/[A-Z]/.test(password))
+      errors.uppercase = "Must include an uppercase letter.";
+    if (!/[!@#$%^&*]/.test(password))
+      errors.symbol = "Must include a special character.";
     return errors;
   };
 
@@ -101,7 +104,7 @@ export default function SignupPage() {
   const handleGoogleLoginSuccess = async (response) => {
     const code = response.code; // This is the authorization code from Google
     try {
-      await dispatch(googleLoginAction(code)); // Dispatch Google login action with code
+      await dispatch(initiateGoogleLogin(code)); // Dispatch Google login action with code
       navigate("/dashboard");
     } catch (error) {
       console.error("Google login failed", error);
@@ -120,8 +123,12 @@ export default function SignupPage() {
         {step === 1 ? (
           <>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold">Create Your Account</CardTitle>
-              <CardDescription>Enter your information to get started.</CardDescription>
+              <CardTitle className="text-2xl font-bold">
+                Create Your Account
+              </CardTitle>
+              <CardDescription>
+                Enter your information to get started.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSignup}>
@@ -178,8 +185,15 @@ export default function SignupPage() {
                     />
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" checked={agreed} onCheckedChange={setAgreed} />
-                    <label htmlFor="terms" className="text-sm font-medium leading-none">
+                    <Checkbox
+                      id="terms"
+                      checked={agreed}
+                      onCheckedChange={setAgreed}
+                    />
+                    <label
+                      htmlFor="terms"
+                      className="text-sm font-medium leading-none"
+                    >
                       I agree to the terms and conditions
                     </label>
                   </div>
@@ -196,7 +210,10 @@ export default function SignupPage() {
             <CardFooter>
               <p className="mt-2 text-center text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <a href="/auth/login" className="underline underline-offset-4 hover:text-primary">
+                <a
+                  href="/auth/login"
+                  className="underline underline-offset-4 hover:text-primary"
+                >
                   Login
                 </a>
               </p>
@@ -205,9 +222,12 @@ export default function SignupPage() {
         ) : (
           <>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold">Verify Your Email</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                Verify Your Email
+              </CardTitle>
               <CardDescription>
-                We have sent a verification code to {email}. Enter it below to verify your email address.
+                We have sent a verification code to {email}. Enter it below to
+                verify your email address.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -223,7 +243,11 @@ export default function SignupPage() {
                       required
                     />
                   </div>
-                  <Button className="w-full mt-4" type="submit" disabled={loading}>
+                  <Button
+                    className="w-full mt-4"
+                    type="submit"
+                    disabled={loading}
+                  >
                     {loading ? <Spinner /> : "Verify Email"}
                   </Button>
                 </div>
@@ -231,12 +255,14 @@ export default function SignupPage() {
             </CardContent>
           </>
         )}
-        {/* Add Google Login button */}
         <CardFooter className="mt-4 text-center">
-          <GoogleLogin 
-            onSuccess={handleGoogleLoginSuccess}
-            onError={handleGoogleLoginError}
-          />
+          <div className="w-full">
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={handleGoogleLoginError}
+              useOneTap
+            />
+          </div>
         </CardFooter>
       </Card>
     </div>

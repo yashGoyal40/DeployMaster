@@ -41,7 +41,6 @@ export default function LoginPage() {
   }, [LoggedIn, navigate]);
 
   useEffect(() => {
-    
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
@@ -138,7 +137,7 @@ export default function LoginPage() {
               onClick={handleGoogleLogin}
             >
               <img
-                src="/google.svg" 
+                src="/google.svg"
                 alt="Google Icon"
                 className="w-5 h-5 mr-2"
               />
